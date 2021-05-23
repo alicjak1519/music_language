@@ -44,8 +44,39 @@ phrases : (phrase)* ;
 
 for_loop : 'for' WS+ name=NAME WS+ 'from' WS+ from=NUMBER WS+ 'to' WS+ to=NUMBER '\n' phrases WS* 'end for';
 
-//condition : ?? ;
-//
-//if : WS* 'if' WS+ condition  ?? ;
 
 // operators
+
+arithmetic : ADD | SUBSTRACT | MULTIPLY | DIVIDE;
+
+ADD: '+';
+
+SUBSTRACT: '-';
+
+MULTIPLY: '*';
+
+DIVIDE: '/';
+
+logic : LOWER | GREATER | LE | GE | NOT | EQUALS | nequals;
+
+LOWER: '<';
+
+GREATER: '>';
+
+LE: '<=';
+
+GE: '>=';
+
+NOT: '!';
+
+EQUALS: '=';
+
+nequals: NOT EQUALS;
+
+// if statement
+
+if : WS* 'if' WS+ condition ':' ;
+
+condition	: NUMBER WS+ condition WS+ NUMBER
+			| NAME WS+ condition WS+ NAME
+			;
