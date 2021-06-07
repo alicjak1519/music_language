@@ -1,5 +1,9 @@
 grammar MusicLanguage;
 
+// start symbol
+program: (declaration | play | '\n' )+ EOF ;
+
+declaration: ( tempo | metrum | timbre | note | pause | bar | bars_list | for_loop | check_if ) ;
 
 // declarations and objects
 
@@ -9,17 +13,17 @@ metrum: WS* 'METRUM' WS* ':' WS* NUMBER '/' NUMBER ;
 
 timbre: WS* 'TIMBRE' WS* ':' WS* TIMBRE ;
 
-note: WS* 'Note' WS+ NAME WS* ':' WS* pitch=NUMBER WS* ',' WS* duration=NUMBER ;
+note: WS* 'Note' WS+ NAME WS* ':' WS* pitch=PITCH WS* ',' WS* duration=DURATION ;
 
 pause: WS* 'Pause' WS+ NAME WS* ':' WS* duration=NUMBER ;
 
-bar: WS* 'Bar' WS+ NAME WS* ':' WS* (note | pause)+ ;
+bar: WS* 'Bar' WS+ NAME WS* ':' WS* NAME(',' WS* NAME)* ;
 
-bars_list: WS* 'BarsList' WS* NAME WS* (bar)+ ;
+bars_list: WS* 'BarsList' WS* NAME WS* ':' WS* NAME(',' WS* NAME)* ;
 
 // instructions
 
-play: WS* 'play' WS+ metrum WS+ ',' WS+ bars_list;
+play: WS* 'play' WS+ metrum WS+ ',' WS+ NAME(',' WS* NAME)*;
 
 // terminals
 
@@ -31,19 +35,18 @@ DURATION: ('1' | '2' | '4' | '8' | '16');
 
 // non-terminals
 
-NUMBER: [1-9] [0-9]* ;
+NUMBER: [0-9]+ ;
 
-NAME : [A-Z][a-zA-Z0-9_]* ;
+NAME: [a-zA-Z0-9_]+ ;
 
-WS: [ \t\r\n]+ -> skip ;
+WS : ' ' | '\t' ;
+
+CR: [\r\n]+ -> skip ;
 
 // statements
 
 phrase : WS* play '\n' ;
 phrases : (phrase)* ;
-
-for_loop : 'for' WS+ name=NAME WS+ 'from' WS+ from=NUMBER WS+ 'to' WS+ to=NUMBER '\n' phrases WS* 'end for';
-
 
 // operators
 
@@ -75,8 +78,18 @@ nequals: NOT EQUALS;
 
 // if statement
 
-if : WS* 'if' WS+ condition ':' ;
+check_if : WS* 'if' WS+ condition ':\n'
+         (declaration | play)+ '\n'
+         ('else:\n'
+         (declaration | play)+)?
+         'endif\n' ;
 
-condition	: NUMBER WS+ condition WS+ NUMBER
-			| NAME WS+ condition WS+ NAME
+condition	: NUMBER WS+ logic WS+ NUMBER
+			| NAME WS+ logic WS+ NAME
 			;
+
+// for loop
+
+for_loop : 'for' WS+ name=NAME WS+ 'from' WS+ start=NUMBER WS+ 'to' WS+ end=NUMBER ':\n'
+            phrases WS+
+            'endfor';
