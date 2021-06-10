@@ -18,10 +18,23 @@ Bar last_bar: en_c, en_e, hn_c
 BarsList first_line: first_bar, second_bar, third_bar
 BarsList second_line: first_bar, second_bar, last_bar
 
-for volt_number from 1 to 2
-	if volt_number == 1
+integer volt_number: 3
+integer volt_number_2: 1
+
+play second_line
+play second_line
+play second_line
+
+if volt_number == volt_number_2:
+    play first_line
+else:
+    play second_line
+endif
+
+for volt_number from 1 to 3:
+	if volt_number == volt_number:
 		play first_line
-	else
+	else:
 		play second_line
 	endif
 endfor

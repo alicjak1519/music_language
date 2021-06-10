@@ -2,8 +2,8 @@ import sys
 import antlr4
 
 from gen.MusicLanguageLexer import MusicLanguageLexer
-from gen.MusicLanguageListener import MusicLanguageListener
 from gen.MusicLanguageParser import MusicLanguageParser
+from wololo.WololoLanguageListener import WololoLanguageListener
 
 
 def main():
@@ -12,7 +12,7 @@ def main():
     stream = antlr4.CommonTokenStream(lexer)
     parser = MusicLanguageParser(stream)
     tree = parser.program()
-    printer = MusicLanguageListener()
+    printer = WololoLanguageListener()
     walker = antlr4.ParseTreeWalker()
     walker.walk(printer, tree)
 
