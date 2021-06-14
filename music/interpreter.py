@@ -8,4 +8,4 @@ class Interpreter:
         self.bars_lists = bars_lists
 
     def play(self):
-        pass
+        print("PLAYYY!")
