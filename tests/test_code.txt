@@ -3,40 +3,36 @@ Note qn_e: E-4, 4
 Note qn_f: F-4, 4
 Note qn_d: D-4, 4
 
-Note en_c: C-4, 2
-Note en_e: E-4, 2
-Note hn_g: G-4, 4
-
-Note hn_c: C-3, 8
+Note qn_c: C-4, 4
 
 Bar first_bar: qn_g, qn_e, qn_e
 Bar second_bar: qn_f, qn_d, qn_d
-Bar third_bar: en_c, en_e, hn_g
+Bar third_bar: qn_c, qn_e, qn_g
 
-Bar last_bar: en_c, en_e, hn_c
+Bar last_bar: qn_c, qn_c, qn_c
+
+Bar backgroud_bar: qn_c, qn_c, qn_c
 
 BarsList first_line: 3/4, first_bar, second_bar, third_bar
 BarsList second_line: 3/4, first_bar, second_bar, last_bar
 
+BarsList background_line: 3/4, backgroud_bar, backgroud_bar, backgroud_bar
+
 integer volt_number: 3
 integer volt_number_2: 1
 
-TIMBRE: Guitar
-
-play second_line, first_line
-play second_line
-play second_line
+TIMBRE: Piano
 
 if volt_number == 3:
-    play first_line
+    play first_line, background_line
 else:
-    play second_line
+    play second_line, background_line
 endif
 
 for volt_number from 1 to 0:
-	if volt_number == volt_number:
-		play first_line
+	if volt_number == 1:
+		play first_line, background_line
 	else:
-		play second_line
+		play second_line, background_line
 	endif
 endfor

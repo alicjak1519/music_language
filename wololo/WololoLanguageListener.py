@@ -5,5 +5,5 @@ from wololo.WololoLanguageParser import Parser
 
 class WololoLanguageListener(MusicLanguageListener):
 
-    def enterProgram(self, ctx: MusicLanguageParser.ProgramContext):
-        pp = Parser(ctx)
+    def exitProgram(self, ctx: MusicLanguageParser.ProgramContext):
+        Parser(ctx)
