@@ -1,11 +1,11 @@
-Note qn_g: G-3, 4
-Note qn_e: E-3, 4
-Note qn_f: F-3, 4
-Note qn_d: D-3, 4
+Note qn_g: G-4, 4
+Note qn_e: E-4, 4
+Note qn_f: F-4, 4
+Note qn_d: D-4, 4
 
-Note en_c: C-3, 2
-Note en_e: E-3, 2
-Note hn_g: G-3, 4
+Note en_c: C-4, 2
+Note en_e: E-4, 2
+Note hn_g: G-4, 4
 
 Note hn_c: C-3, 8
 

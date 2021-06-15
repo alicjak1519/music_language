@@ -9,12 +9,12 @@ from music.timbre_to_num import timbre_to_num
 
 
 class MusicInterpreter:
-    def __init__(self, bars_lists: List[BarList]):
+    def __init__(self, bars_lists: List[BarList], timbre: str = 'Flute'):
         """
         MusicInterpreter class interprets lists of bars.
         :param bars_lists: single phrase of notes, each bar_list contains single melodic line
         """
-        self.timbre = 'Flute'
+        self.timbre = timbre
         self.bars_lists = bars_lists
 
     def create_wave(self):
