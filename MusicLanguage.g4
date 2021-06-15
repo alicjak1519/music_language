@@ -50,7 +50,7 @@ CR: [\r\n]+ -> skip ;
 // statements
 
 phrase : WS* (play | declaration) '\n' ;
-phrases : (phrase)* ;
+phrases : (phrase)+ ;
 
 // operators
 
@@ -83,12 +83,12 @@ nequals: NOT EQUALS;
 // if statement
 
 check_if : WS* 'if' WS+ condition ':\n'
-         (declaration | play)+ '\n'
+         phrases
          (WS* 'else:\n'
-         (declaration | play)+ '\n')?
+         phrases)?
          WS* 'endif' ;
 
-condition: NAME WS+ logic WS+ NAME ;
+condition: (NAME | NUMBER) WS+ logic WS+ (NAME | NUMBER) ;
 
 // for loop
 

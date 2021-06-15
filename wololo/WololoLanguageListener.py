@@ -4,6 +4,7 @@ from components.note import Note
 from gen.MusicLanguageListener import MusicLanguageListener
 from gen.MusicLanguageParser import MusicLanguageParser
 from music.interpreter import Interpreter
+from wololo.WololoLanguageParser import Parser
 
 
 class WololoLanguageListener(MusicLanguageListener):
@@ -12,54 +13,40 @@ class WololoLanguageListener(MusicLanguageListener):
         self.notes = {}
         self.bars = {}
         self.bars_lists = {}
+        self.integers = {}
+        self.strings = {}
         self.variables = []
+
+    def enterProgram(self, ctx:MusicLanguageParser.ProgramContext):
+        pp = Parser(ctx)
+        # pp
 
     def enterPhrase(self, ctx: MusicLanguageParser.PhraseContext):
         pass
 
     def exitPlay(self, ctx: MusicLanguageParser.PlayContext):
-        for bars_list_name in ctx.NAME():
-            bars_list = self.bars_lists[bars_list_name.getText()]
-            Interpreter(bars_list).play()
+        pass
+        # check parent, if program, continue
+        # else pass
+        #
+        # for bars_list_name in ctx.NAME():
+        #     bars_list = self.bars_lists[bars_list_name.getText()]
+        #     Interpreter(bars_list).play()
 
     def enterBars_list(self, ctx: MusicLanguageParser.Bars_listContext):
-        name = ctx.NAME(0).getText()
-        bars = []
-
-        if name not in self.variables:
-            for bar_name in ctx.NAME()[1:]:
-                bar_name_as_str = bar_name.getText()
-                if bar_name_as_str in self.variables:
-                    bars.append(self.bars[bar_name_as_str])
-
-            self.bars_lists[name] = BarList(bars)
-            self.variables.append(name)
+        pass
 
     def enterBar(self, ctx: MusicLanguageParser.BarContext):
-        name = ctx.NAME(0).getText()
-        notes = []
-
-        if name not in self.variables:
-            for note_name in ctx.NAME()[1:]:
-                note_name_as_str = note_name.getText()
-                if note_name_as_str in self.variables:
-                    notes.append(self.notes[note_name_as_str])
-
-            self.bars[name] = Bar(notes)
-            self.variables.append(name)
+        pass
 
     def enterNote(self, ctx: MusicLanguageParser.NoteContext):
-        name = ctx.NAME().getText()
-
-        if name not in self.variables:
-            pitch = ctx.PITCH().getText()
-            duration = ctx.NUMBER().getText()
-
-            if int(ctx.NUMBER().getText()) in [1, 2, 4, 8, 16, 32]:
-                self.notes[name] = Note(pitch, duration)
-                self.variables.append(name)
-            else:
-                print("Invalid duration vaule")
+        pass
 
     def enterInteger(self, ctx: MusicLanguageParser.IntegerContext):
         pass
+
+    def enterString(self, ctx:MusicLanguageParser.StringContext):
+        pass
+
+    def enterCheck_if(self, ctx:MusicLanguageParser.Check_ifContext):
+        x = ctx.condition()

@@ -25,7 +25,7 @@ play second_line
 play second_line
 play second_line
 
-if volt_number == volt_number_2:
+if volt_number == 3:
     play first_line
 else:
     play second_line
