@@ -9,7 +9,7 @@ declaration: ( tempo | meter | timbre | note | bar | bars_list | for_loop | chec
 
 tempo: WS* 'TEMPO' WS* ':' WS* NUMBER ;
 
-meter: WS* 'METER' WS* ':' WS* NUMBER '/' NUMBER ;
+meter: WS* NUMBER '/' NUMBER ;
 
 timbre: WS* 'TIMBRE' WS* ':' WS* TIMBRE ;
 
