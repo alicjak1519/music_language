@@ -3,7 +3,7 @@ from components.bar_list import BarList
 from components.note import Note
 from gen.MusicLanguageListener import MusicLanguageListener
 from gen.MusicLanguageParser import MusicLanguageParser
-from music.interpreter import Interpreter
+from music.music_interpreter import MusicInterpreter
 
 
 class WololoLanguageListener(MusicLanguageListener):
@@ -18,9 +18,11 @@ class WololoLanguageListener(MusicLanguageListener):
         pass
 
     def exitPlay(self, ctx: MusicLanguageParser.PlayContext):
+        bars_lists = []
         for bars_list_name in ctx.NAME():
             bars_list = self.bars_lists[bars_list_name.getText()]
-            Interpreter(bars_list).play()
+            bars_lists.append(bars_list)
+        MusicInterpreter(bars_lists).play()
 
     def enterBars_list(self, ctx: MusicLanguageParser.Bars_listContext):
         name = ctx.NAME(0).getText()

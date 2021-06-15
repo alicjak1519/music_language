@@ -3,13 +3,13 @@ grammar MusicLanguage;
 // start symbol
 program: (declaration | play | '\n' )+ EOF ;
 
-declaration: ( tempo | metrum | timbre | note | pause | bar | bars_list | for_loop | check_if | integer | string) ;
+declaration: ( tempo | meter | timbre | note | pause | bar | bars_list | for_loop | check_if | integer | string) ;
 
 // declarations and objects
 
 tempo: WS* 'TEMPO' WS* ':' WS* NUMBER ;
 
-metrum: WS* 'METRUM' WS* ':' WS* NUMBER '/' NUMBER ;
+meter: WS* 'METER' WS* ':' WS* NUMBER '/' NUMBER ;
 
 timbre: WS* 'TIMBRE' WS* ':' WS* TIMBRE ;
 
@@ -25,13 +25,13 @@ bars_list: WS* 'BarsList' WS* NAME WS* ':' WS* NAME(',' WS* NAME)* ;
 // instructions
 
 play: WS* 'play' WS+ NAME(',' WS* NAME)*;
-//play: WS* 'play' WS+ metrum WS+ ',' WS+ NAME(',' WS* NAME)*;
+//play: WS* 'play' WS+ meter WS+ ',' WS+ NAME(',' WS* NAME)*;
 
 // terminals
 
 TIMBRE: ('Flute' | 'Piano' | 'Guitar') ;
 
-PITCH: ('c' | 'cis' | 'd' | 'dis' | 'e' | 'eis' | 'f' | 'fis' | 'g' | 'gis' | 'a' | 'b' | 'h' ) [1-2] ;
+PITCH: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'E#' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'B' | 'H' ) '-' [1-4] ;
 
 //DURATION: ('1' | '2' | '4' | '8' | '16');
 
