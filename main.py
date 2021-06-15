@@ -1,5 +1,5 @@
 import antlr4
-import click
+import argparse
 
 from gen.MusicLanguageLexer import MusicLanguageLexer
 from gen.MusicLanguageParser import MusicLanguageParser
@@ -7,10 +7,13 @@ from wololo.WololoErrorListener import ThrowingErrorListener
 from wololo.WololoLanguageListener import WololoLanguageListener
 
 
-@click.command()
-@click.option('--composition-path', help='Path to input file with your composition in Wololo language')
-def main(composition_path):
-    interpret_composition(composition_path)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--composition-path', type=str,
+                        help='Path to input file with your composition in Wololo language')
+    args = parser.parse_args()
+
+    interpret_composition(args.composition_path)
 
 
 def interpret_composition(composition_path: str):

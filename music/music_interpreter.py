@@ -40,7 +40,7 @@ class MusicInterpreter:
         try:
             pygame.mixer.music.load(music_file)
         except pygame.error:
-            print(f'File {music_file} not found! ({pygame.get_error()})')
+            print(pygame.get_error())
             return
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
