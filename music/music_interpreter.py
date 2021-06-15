@@ -5,7 +5,8 @@ from mingus.containers import MidiInstrument, Track, Bar, Composition
 from mingus.midi import midi_file_out
 
 from components.bar_list import BarList
-from music.timbre_to_num import timbre_to_num
+
+TIMBRE_TO_NUMBER = {'FLute': 73, 'Piano': 0, 'Guitar': 24}
 
 
 class MusicInterpreter:
@@ -19,8 +20,9 @@ class MusicInterpreter:
 
     def create_wave(self):
         instrument = MidiInstrument()
-        instrument.instrument_nr = timbre_to_num(self.timbre)
+        instrument.instrument_nr = TIMBRE_TO_NUMBER[self.timbre]
         wave_composition = Composition()
+
         for bar_list in self.bars_lists:
             wave_track = Track(instrument)
             for bar in bar_list.bars:
@@ -29,7 +31,7 @@ class MusicInterpreter:
                     wave_bar.place_notes(note.pitch, note.length)
                 wave_track.add_bar(wave_bar)
             wave_composition.add_track(wave_track)
-        midi_file_out.write_Composition("test.mid", wave_composition)
+        midi_file_out.write_Composition("wololo.mid", wave_composition)
 
     @staticmethod
     def play_music_from_file(music_file):
@@ -47,4 +49,4 @@ class MusicInterpreter:
     def play(self):
         self.create_wave()
         pygame.mixer.init()
-        self.play_music_from_file('test.mid')
+        self.play_music_from_file('wololo.mid')

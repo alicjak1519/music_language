@@ -100,7 +100,7 @@ class Parser:
     def parseBarsListDeclaration(self, ctx: MusicLanguageParser.Bars_listContext):
         name = ctx.NAME(0).getText()
         meter = (int(ctx.meter().NUMBER(0).getText()),
-                  int(ctx.meter().NUMBER(1).getText()))
+                 int(ctx.meter().NUMBER(1).getText()))
         bars = []
 
         if name not in self.variables.keys():
