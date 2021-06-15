@@ -17,7 +17,7 @@ class Parser:
         self.integers = {}
         self.strings = {}
         self.variables = {}
-        self.timbre = "Piano"
+        self.timbre = 'Piano'
 
         self.parseChildren()
 
@@ -80,7 +80,8 @@ class Parser:
                 self.notes[name] = Note(pitch, duration)
                 self.variables[name] = self.notes
             else:
-                print("raise invalid duration value")
+                raise Exception(f'Line: {ctx.start.line}, column: {ctx.start.column}. '
+                                'Invalid duration value!')
 
     # parse Bar context
     def parseBarDeclaration(self, ctx: MusicLanguageParser.BarContext):
@@ -107,10 +108,23 @@ class Parser:
             for bar_name in ctx.NAME()[1:]:
                 bar_name_as_str = bar_name.getText()
                 if bar_name_as_str in self.variables:
-                    bars.append(self.bars[bar_name_as_str])
+                    if self.is_bars_list_valid(bar_name_as_str, meter):
+                        bars.append(self.bars[bar_name_as_str])
+                    else:
+                        raise Exception(
+                            f'Line: {ctx.start.line}, column: {ctx.start.column}. '
+                            f'Bar {bar_name_as_str} has invalid length, incompatibility with meter!')
 
             self.bars_lists[name] = BarList(bars, meter)
             self.variables[name] = self.bars_lists
+
+    def is_bars_list_valid(self, bar_name_as_str, meter):
+        notes_length = [note.length for note in self.bars[bar_name_as_str].notes]
+        notes_length_sum = sum([1 / note_length for note_length in notes_length])
+
+        valid_notes_length_sum = meter[0] / meter[1]
+
+        return notes_length_sum == valid_notes_length_sum
 
     # parse integers
     def parseIntegerDeclaration(self, ctx: MusicLanguageParser.IntegerContext):
@@ -177,13 +191,13 @@ class Parser:
         if val2 in self.variables.keys():
             val2 = self.variables[val2][val2]
 
-        # print(Operators().logic(statement, val1, val2))
         return Operators().logic(statement, val1, val2)
 
     def parseForLoopStatement(self, ctx: MusicLanguageParser.For_loopContext):
         starting_var = ctx.NAME().getText()
         if starting_var in self.variables and starting_var not in self.integers:
-            print("raise type error")
+            raise Exception(f'Line: {ctx.start.line}, column: {ctx.start.column}. '
+                            'Type error!')
         else:
             start_number = int(ctx.NUMBER(0).getText())
             end_number = int(ctx.NUMBER(1).getText())
@@ -192,7 +206,6 @@ class Parser:
                 growth = True
             else:
                 growth = False
-            # condition = self.checkLoopCondition(end_number, starting_var, growth)
             condition = True
             while condition:
                 condition = self.checkLoopCondition(end_number, starting_var, growth)
@@ -217,7 +230,6 @@ class Parser:
         bars_lists = []
         for list_ in ctx.NAME():
             name = list_.symbol.text
-            print(name)
             if name in self.bars_lists.keys():
                 bars_lists.append(self.bars_lists[name])
         MusicInterpreter(bars_lists, self.timbre).play()
