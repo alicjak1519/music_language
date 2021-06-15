@@ -99,8 +99,8 @@ class Parser:
     # parse list of Bars
     def parseBarsListDeclaration(self, ctx: MusicLanguageParser.Bars_listContext):
         name = ctx.NAME(0).getText()
-        metrum = (int(ctx.metrum().NUMBER(0).getText()),
-                  int(ctx.metrum().NUMBER(1).getText()))
+        meter = (int(ctx.meter().NUMBER(0).getText()),
+                  int(ctx.meter().NUMBER(1).getText()))
         bars = []
 
         if name not in self.variables.keys():
@@ -109,7 +109,7 @@ class Parser:
                 if bar_name_as_str in self.variables:
                     bars.append(self.bars[bar_name_as_str])
 
-            self.bars_lists[name] = BarList(bars, metrum)
+            self.bars_lists[name] = BarList(bars, meter)
             self.variables[name] = self.bars_lists
 
     # parse integers

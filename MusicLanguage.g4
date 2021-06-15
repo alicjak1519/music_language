@@ -17,7 +17,7 @@ note: WS* 'Note' WS+ NAME WS* ':' WS* pitch=PITCH WS* ',' WS* duration=NUMBER ;
 
 bar: WS* 'Bar' WS+ NAME WS* ':' WS* NAME(',' WS* NAME)* ;
 
-bars_list: WS* 'BarsList' WS* NAME WS* ':' WS* metrum WS* ',' WS* NAME(',' WS* NAME)* ;
+bars_list: WS* 'BarsList' WS* NAME WS* ':' WS* meter WS* ',' WS* NAME(',' WS* NAME)* ;
 
 
 // instructions
