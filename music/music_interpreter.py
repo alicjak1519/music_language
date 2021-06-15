@@ -10,6 +10,7 @@ TIMBRE_TO_NUMBER = {'FLute': 73, 'Piano': 0, 'Guitar': 24}
 
 
 class MusicInterpreter:
+
     def __init__(self, bars_lists: List[BarList], timbre: str = 'Flute'):
         """
         MusicInterpreter class interprets lists of bars.
@@ -17,6 +18,7 @@ class MusicInterpreter:
         """
         self.timbre = timbre
         self.bars_lists = bars_lists
+        self.clock = pygame.time.Clock()
 
     def create_wave(self):
         instrument = MidiInstrument()
@@ -31,20 +33,18 @@ class MusicInterpreter:
                     wave_bar.place_notes(note.pitch, note.length)
                 wave_track.add_bar(wave_bar)
             wave_composition.add_track(wave_track)
-        midi_file_out.write_Composition("wololo.mid", wave_composition)
+        midi_file_out.write_Composition('wololo.mid', wave_composition)
+        self.clock.tick(30)
 
-    @staticmethod
-    def play_music_from_file(music_file):
-        clock = pygame.time.Clock()
+    def play_music_from_file(self, music_file):
         try:
             pygame.mixer.music.load(music_file)
-            print("Music file %s loaded!" % music_file)
         except pygame.error:
-            print("File %s not found! (%s)" % (music_file, pygame.get_error()))
+            print(f'File {music_file} not found! ({pygame.get_error()})')
             return
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
-            clock.tick(30)
+            self.clock.tick(30)
 
     def play(self):
         self.create_wave()
