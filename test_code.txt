@@ -33,7 +33,7 @@ else:
     play second_line
 endif
 
-for volt_number from 1 to 3:
+for volt_number from 1 to 0:
 	if volt_number == volt_number:
 		play first_line
 	else:

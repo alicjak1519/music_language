@@ -57,6 +57,9 @@ class Parser:
         elif isinstance(ctx, MusicLanguageParser.Check_ifContext):
             self.parseCheckIfStatement(ctx)
 
+        elif isinstance(ctx, MusicLanguageParser.For_loopContext):
+            self.parseForLoopStatement(ctx)
+
         elif isinstance(ctx, MusicLanguageParser.PlayContext):
             self.parsePlayStatement(ctx)
 
@@ -177,10 +180,44 @@ class Parser:
         # print(Operators().logic(statement, val1, val2))
         return Operators().logic(statement, val1, val2)
 
+    def parseForLoopStatement(self, ctx: MusicLanguageParser.For_loopContext):
+        starting_var = ctx.NAME().getText()
+        if starting_var in self.variables and starting_var not in self.integers:
+            print("raise type error")
+        else:
+            start_number = int(ctx.NUMBER(0).getText())
+            end_number = int(ctx.NUMBER(1).getText())
+            self.integers[starting_var] = start_number
+            if start_number < end_number:
+                growth = True
+            else:
+                growth = False
+            # condition = self.checkLoopCondition(end_number, starting_var, growth)
+            condition = True
+            while condition:
+                condition = self.checkLoopCondition(end_number, starting_var, growth)
+                for child in ctx.getChildren():
+                    self.parseDeclaration(child)
+
+    def checkLoopCondition(self, end_number, starting_var, growth):
+        if growth:
+            print(self.integers[starting_var])
+            self.integers[starting_var] += 1
+            if self.integers[starting_var] > end_number:
+                return False
+            return True
+        else:
+            print(self.integers[starting_var])
+            self.integers[starting_var] -= 1
+            if self.integers[starting_var] < end_number:
+                return False
+            return True
+
     def parsePlayStatement(self, ctx: MusicLanguageParser.PlayContext):
         bars_lists = []
         for list_ in ctx.NAME():
             name = list_.symbol.text
+            print(name)
             if name in self.bars_lists.keys():
                 bars_lists.append(self.bars_lists[name])
         Interpreter(bars_lists, self.timbre).play()
