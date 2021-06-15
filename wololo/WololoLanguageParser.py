@@ -66,9 +66,6 @@ class Parser:
         elif isinstance(ctx, MusicLanguageParser.TimbreContext):
             self.parseTimbreDeclaration(ctx)
 
-        else:
-            print(type(ctx))
-
     # parse Note context
     def parseNoteDeclaration(self, ctx: MusicLanguageParser.NoteContext):
         name = ctx.NAME().getText()
@@ -214,13 +211,11 @@ class Parser:
 
     def checkLoopCondition(self, end_number, starting_var, growth):
         if growth:
-            print(self.integers[starting_var])
             self.integers[starting_var] += 1
             if self.integers[starting_var] > end_number:
                 return False
             return True
         else:
-            print(self.integers[starting_var])
             self.integers[starting_var] -= 1
             if self.integers[starting_var] < end_number:
                 return False

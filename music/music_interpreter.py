@@ -6,7 +6,7 @@ from mingus.midi import midi_file_out
 
 from components.bar_list import BarList
 
-TIMBRE_TO_NUMBER = {'FLute': 73, 'Piano': 0, 'Guitar': 24}
+TIMBRE_TO_NUMBER = {'Flute': 73, 'Piano': 0, 'Guitar': 24}
 
 
 class MusicInterpreter:
@@ -40,7 +40,7 @@ class MusicInterpreter:
         try:
             pygame.mixer.music.load(music_file)
         except pygame.error:
-            print(f'File {music_file} not found! ({pygame.get_error()})')
+            print(pygame.get_error())
             return
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
