@@ -15,13 +15,15 @@ Bar third_bar: en_c, en_e, hn_g
 
 Bar last_bar: en_c, en_e, hn_c
 
-BarsList first_line: first_bar, second_bar, third_bar
-BarsList second_line: first_bar, second_bar, last_bar
+BarsList first_line: 3/4, first_bar, second_bar, third_bar
+BarsList second_line: 3/4, first_bar, second_bar, last_bar
 
 integer volt_number: 3
 integer volt_number_2: 1
 
-play second_line
+TIMBRE: Guitar
+
+play second_line, first_line
 play second_line
 play second_line
 

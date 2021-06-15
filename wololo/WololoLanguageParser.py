@@ -4,6 +4,7 @@ from components.note import Note
 from gen.MusicLanguageParser import *
 from antlr4.tree import Tree
 
+from music.interpreter import Interpreter
 from wololo.WololoLanguageOperators import Operators
 
 
@@ -16,6 +17,8 @@ class Parser:
         self.integers = {}
         self.strings = {}
         self.variables = {}
+        self.timbre = "Piano"
+
         self.parseChildren()
 
     def parseChildren(self, node=None):
@@ -54,6 +57,12 @@ class Parser:
         elif isinstance(ctx, MusicLanguageParser.Check_ifContext):
             self.parseCheckIfStatement(ctx)
 
+        elif isinstance(ctx, MusicLanguageParser.PlayContext):
+            self.parsePlayStatement(ctx)
+
+        elif isinstance(ctx, MusicLanguageParser.TimbreContext):
+            self.parseTimbreDeclaration(ctx)
+
         else:
             print(type(ctx))
 
@@ -87,6 +96,8 @@ class Parser:
     # parse list of Bars
     def parseBarsListDeclaration(self, ctx: MusicLanguageParser.Bars_listContext):
         name = ctx.NAME(0).getText()
+        metrum = (int(ctx.metrum().NUMBER(0).getText()),
+                  int(ctx.metrum().NUMBER(1).getText()))
         bars = []
 
         if name not in self.variables.keys():
@@ -95,7 +106,7 @@ class Parser:
                 if bar_name_as_str in self.variables:
                     bars.append(self.bars[bar_name_as_str])
 
-            self.bars_lists[name] = BarList(bars)
+            self.bars_lists[name] = BarList(bars, metrum)
             self.variables[name] = self.bars_lists
 
     # parse integers
@@ -112,7 +123,7 @@ class Parser:
         name = ctx.NAME().getText()
 
         if name not in self.variables.keys():
-            val = ctx.NAME(1).getText()
+            val = str(ctx.NAME(1).getText())
             self.variables[name] = self.strings
             self.strings[name] = val
 
@@ -165,3 +176,15 @@ class Parser:
 
         # print(Operators().logic(statement, val1, val2))
         return Operators().logic(statement, val1, val2)
+
+    def parsePlayStatement(self, ctx: MusicLanguageParser.PlayContext):
+        bars_lists = []
+        for list_ in ctx.NAME():
+            name = list_.symbol.text
+            if name in self.bars_lists.keys():
+                bars_lists.append(self.bars_lists[name])
+        Interpreter(bars_lists, self.timbre).play()
+
+    def parseTimbreDeclaration(self, ctx: MusicLanguageParser.TimbreContext):
+        timbre = ctx.TIMBRE().getText()
+        self.timbre = timbre

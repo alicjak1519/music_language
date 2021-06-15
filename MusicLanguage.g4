@@ -9,7 +9,7 @@ declaration: ( tempo | metrum | timbre | note | pause | bar | bars_list | for_lo
 
 tempo: WS* 'TEMPO' WS* ':' WS* NUMBER ;
 
-metrum: WS* 'METRUM' WS* ':' WS* NUMBER '/' NUMBER ;
+metrum: WS* NUMBER '/' NUMBER WS* ;
 
 timbre: WS* 'TIMBRE' WS* ':' WS* TIMBRE ;
 
@@ -19,13 +19,12 @@ pause: WS* 'Pause' WS+ NAME WS* ':' WS* duration=NUMBER ;
 
 bar: WS* 'Bar' WS+ NAME WS* ':' WS* NAME(',' WS* NAME)* ;
 
-bars_list: WS* 'BarsList' WS* NAME WS* ':' WS* NAME(',' WS* NAME)* ;
+bars_list: WS* 'BarsList' WS* NAME WS* ':' WS* metrum WS* ',' WS* NAME(',' WS* NAME)* ;
 
 
 // instructions
 
 play: WS* 'play' WS+ NAME(',' WS* NAME)*;
-//play: WS* 'play' WS+ metrum WS+ ',' WS+ NAME(',' WS* NAME)*;
 
 // terminals
 
