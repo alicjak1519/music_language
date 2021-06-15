@@ -4,7 +4,7 @@ from components.note import Note
 from gen.MusicLanguageParser import *
 from antlr4.tree import Tree
 
-from music.interpreter import Interpreter
+from music.music_interpreter import MusicInterpreter
 from wololo.WololoLanguageOperators import Operators
 
 
@@ -220,7 +220,7 @@ class Parser:
             print(name)
             if name in self.bars_lists.keys():
                 bars_lists.append(self.bars_lists[name])
-        Interpreter(bars_lists, self.timbre).play()
+        MusicInterpreter(bars_lists, self.timbre).play()
 
     def parseTimbreDeclaration(self, ctx: MusicLanguageParser.TimbreContext):
         timbre = ctx.TIMBRE().getText()

@@ -1,13 +1,13 @@
-Note qn_g: g1, 4
-Note qn_e: e1, 4
-Note qn_f: f1, 4
-Note qn_d: d1, 4
+Note qn_g: G-4, 4
+Note qn_e: E-4, 4
+Note qn_f: F-4, 4
+Note qn_d: D-4, 4
 
-Note en_c: c1, 2
-Note en_e: e1, 2
-Note hn_g: g1, 8
+Note en_c: C-4, 2
+Note en_e: E-4, 2
+Note hn_g: G-4, 4
 
-Note hn_c: c1, 16
+Note hn_c: C-3, 8
 
 Bar first_bar: qn_g, qn_e, qn_e
 Bar second_bar: qn_f, qn_d, qn_d
